@@ -111,6 +111,12 @@ build libgtest_main.a: CXX_STATIC_LIBRARY_LINKER__gtest_main_Debug CMakeFiles/gt
 
 build cmake_object_order_depends_target_correrTests: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
 
+build CMakeFiles/correrTests.dir/src/PriorityQueue.cpp.o: CXX_COMPILER__correrTests_Debug /home/neville/GitHub/tp3-lollapatooza/tp3/src/PriorityQueue.cpp || cmake_object_order_depends_target_correrTests
+  DEP_FILE = CMakeFiles/correrTests.dir/src/PriorityQueue.cpp.o.d
+  FLAGS = -pthread -std=gnu++11 -ggdb3 -g -g -fdiagnostics-color=always -std=gnu++11
+  OBJECT_DIR = CMakeFiles/correrTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/correrTests.dir/src
+
 build CMakeFiles/correrTests.dir/src/fachada_lollapatuza.cpp.o: CXX_COMPILER__correrTests_Debug /home/neville/GitHub/tp3-lollapatooza/tp3/src/fachada_lollapatuza.cpp || cmake_object_order_depends_target_correrTests
   DEP_FILE = CMakeFiles/correrTests.dir/src/fachada_lollapatuza.cpp.o.d
   FLAGS = -pthread -std=gnu++11 -ggdb3 -g -g -fdiagnostics-color=always -std=gnu++11
@@ -143,7 +149,7 @@ build CMakeFiles/correrTests.dir/tests/tests_lollapatuza.cpp.o: CXX_COMPILER__co
 #############################################
 # Link the executable correrTests
 
-build correrTests: CXX_EXECUTABLE_LINKER__correrTests_Debug CMakeFiles/correrTests.dir/src/fachada_lollapatuza.cpp.o CMakeFiles/correrTests.dir/src/lollapatuza.cpp.o CMakeFiles/correrTests.dir/src/puesto.cpp.o CMakeFiles/correrTests.dir/tests/tests_lollapatuza.cpp.o | libgtest.a libgtest_main.a || libgtest.a libgtest_main.a
+build correrTests: CXX_EXECUTABLE_LINKER__correrTests_Debug CMakeFiles/correrTests.dir/src/PriorityQueue.cpp.o CMakeFiles/correrTests.dir/src/fachada_lollapatuza.cpp.o CMakeFiles/correrTests.dir/src/lollapatuza.cpp.o CMakeFiles/correrTests.dir/src/puesto.cpp.o CMakeFiles/correrTests.dir/tests/tests_lollapatuza.cpp.o | libgtest.a libgtest_main.a || libgtest.a libgtest_main.a
   FLAGS = -pthread -std=gnu++11 -ggdb3 -g -g
   LINK_LIBRARIES = libgtest.a  libgtest_main.a
   OBJECT_DIR = CMakeFiles/correrTests.dir

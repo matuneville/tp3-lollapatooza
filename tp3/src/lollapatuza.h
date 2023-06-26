@@ -7,20 +7,14 @@
 
 class lollapatuza {
 public:
-    lollapatuza(const set<Persona>& personas, const map<IdPuesto, aed2_Puesto>& infoPuestos);
-
-    void registrarCompra(Persona persona, IdPuesto idPuesto, Producto item, Nat cant);
-
+    lollapatuza(const set<Persona>& personas, const map<IdPuesto, Puesto>& infoPuestos);
+    ~lollapatuza();
+    void compra(Persona persona, IdPuesto idPuesto, Producto item, Nat cant);
     void hackear(Persona persona, Producto item);
-
     Nat gastoTotal(Persona persona) const;
-
     Persona mayorGastador() const;
-
     IdPuesto menorStock(Producto item) const;
-
     const set<Persona>& personas() const;
-
     map<IdPuesto, Puesto> idsDePuestos() const;
 
 private:
@@ -29,12 +23,7 @@ private:
     set<Persona> _personas;
     map<IdPuesto, Puesto> _puestosPorID;
     PriorityQueue _gastoTotal;
-    map<Persona, map<Producto, map<IdPuesto, Puesto>>> _puestosHackeables;
-
-    // Operaciones para obtener información de los puestos
-    Nat stockEnPuesto(IdPuesto idPuesto, const Producto& producto) const;
-    Nat descuentoEnPuesto(IdPuesto idPuesto, const Producto& producto, Nat cantidad) const;
-    Nat gastoEnPuesto(IdPuesto idPuesto, Persona persona) const;
+    map<Persona, map<Producto, map<IdPuesto, Puesto>>>& _puestosHackeables;
 };
 
 

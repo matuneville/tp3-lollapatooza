@@ -17,7 +17,7 @@ public:
     // Operaciones básicas
     PriorityQueue(set<Persona>);
     Nat proximo() const;
-    void modificar(Persona persona, Nat gasto);
+    void modificar(Persona persona, int gasto);
     Nat devolverGasto(Persona persona) const;
 
 private:

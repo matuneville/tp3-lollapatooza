@@ -1,0 +1,7 @@
+# ninja log v5
+1	500	1687815112230554663	CMakeFiles/correrTests.dir/src/fachada_lollapatuza.cpp.o	3b6c3ed98cc967ff
+1	1152	1687815112886554589	CMakeFiles/gtest_main.dir/tests/gtest-1.8.1/gtest_main.cc.o	4a211083e5e7658f
+501	2782	1687815114510554403	CMakeFiles/correrTests.dir/tests/tests_lollapatuza.cpp.o	e8a115ffb57dff24
+0	4038	1687815115762554259	CMakeFiles/gtest.dir/tests/gtest-1.8.1/gtest-all.cc.o	61f8580bafa0d556
+2	129	1687818016045007785	libgtest_main.a	5c951341b00157e0
+1	212	1687818016121010067	libgtest.a	79f6caed1971b44a
