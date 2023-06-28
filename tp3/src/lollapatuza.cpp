@@ -7,20 +7,16 @@ lollapatuza::lollapatuza(const set<Persona>& personas, const map<IdPuesto, Puest
         _personas(personas),
         _puestosPorID(infoPuestos),
         _gastoTotal(PriorityQueue(personas)),
-        _puestosHackeables(*(new map<Persona, map<Producto, map<IdPuesto, Puesto>>>()))
+        _puestosHackeables(map<Persona, map<Producto, map<IdPuesto, Puesto>>>())
 {
     for (Persona persona : personas) {
         _puestosHackeables[persona] = {};
     }
 }
 
-lollapatuza::~lollapatuza() {
-    delete &_puestosHackeables;
-}
-
 void lollapatuza::compra(Persona persona, IdPuesto idPuesto, Producto item, Nat cant){
     // buscamos el puesto
-    Puesto puesto = _puestosPorID[idPuesto]; // O(log P)
+    Puesto puesto = _puestosPorID.at(idPuesto); // O(log P)
 
     // calculo cuánto es el gasto de la compra
     Nat precioTotal = puesto.precioTotal(item,cant); // O(log I)
@@ -37,13 +33,15 @@ void lollapatuza::compra(Persona persona, IdPuesto idPuesto, Producto item, Nat 
         if(diccPer.count(item)){ // O(log I)
             map<IdPuesto, Puesto>& diccItem = diccPer[item];
             if(!diccItem.count(idPuesto)){ // O(log P)
-                diccItem[idPuesto] = puesto; // O(log P)
+                //diccItem[idPuesto] = puesto; // O(log P)
+                diccItem.insert({idPuesto, puesto});
             }
         }
         else {
             diccPer[item] = {}; // O(log I)
             map<IdPuesto, Puesto>& diccItem = diccPer[item];
-            diccItem[idPuesto] = puesto; // O(log P)
+            //diccItem[idPuesto] = puesto; // O(log P)
+            diccItem.insert({idPuesto, puesto});
         }
     }
 

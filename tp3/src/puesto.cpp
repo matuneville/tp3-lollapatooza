@@ -4,13 +4,14 @@
 
 #include "puesto.h"
 
-Puesto::Puesto(Menu menu, Stock stock, Promociones descuentos): _menu(menu), _stock(stock){
-    Promociones ::iterator itItem = descuentos.begin();
+Puesto::Puesto(Menu menu, Stock stock, Promociones descuentos): _menu(menu), _stock(stock), _gastoDe({}){
+    // Promociones = map<Producto, map<Nat, Nat>>
+    Promociones::iterator itItem = descuentos.begin();
     Nat contadorCant = 0;
     Nat sgteDesc = 0;
 
     while(itItem != descuentos.end()){
-        vector<Nat> descPorIndice {0};
+        vector<Nat> descPorIndice;
         map<Nat,Nat>::iterator itCant = (itItem->second).begin();
         while(itCant != itItem->second.end()) {
             while (contadorCant < itCant->first) {
@@ -29,16 +30,18 @@ Puesto::Puesto(Menu menu, Stock stock, Promociones descuentos): _menu(menu), _st
     }
 }
 
-Nat Puesto::stockDe(Producto item){
+const Nat Puesto::stockDe(Producto item) const{
     if(this->_stock.count(item) > 0)
-        return this->_stock[item];
+        return this->_stock.at(item);
     else return 0;
 }
 
 Nat Puesto::descuentoDe(Producto item, Nat cant) {
-    if(not this->_descuentos.count(item) )
+    if(not _descuentos.count(item) )
         return 0;
-    else return (this->_descuentos[item])[cant];
+    else if(cant < (_descuentos[item]).size())
+        return (_descuentos[item])[cant];
+    return (_descuentos[item])[_descuentos[item].size()-1];
 }
 
 Nat Puesto::gastoDe(Persona persona) {
@@ -76,7 +79,7 @@ void Puesto::registrarCompra(Persona persona, Producto item, Nat cant){
         conjCantSinDesc->insert(cant);
     }
     if(!_gastoDe.count(persona)){
-        _gastoDe[persona] = precioT;
+        _gastoDe.insert({persona, precioT});
     }
     else{
         _gastoDe[persona] += precioT;
@@ -100,7 +103,7 @@ void Puesto::registrarHackeo(Persona persona, Producto item){
 
 Nat Puesto::precioTotal(Producto item, Nat cant){
     Nat precioTotal = _menu.at(item) * cant; //O(log I)
-    Nat descuento = _descuentos.at(item)[cant]; //O(log I)
+    Nat descuento = descuentoDe(item, cant); //O(log I)
     return  precioTotal * ((100 - descuento) / 100); //O(1)
 }
 

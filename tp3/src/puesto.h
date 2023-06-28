@@ -6,13 +6,13 @@
 #define TP_LOLLA_PUESTO_H
 #include "tipos.h"
 #include "set"
-#include "lollapatuza.h"
+#include "vector"
 
 class Puesto {
 public:
     // Operaciones Básicas
     Puesto(Menu menu, Stock stock, Promociones descuentos);
-    Nat stockDe(Producto item);
+    const Nat stockDe(Producto item) const;
     Nat descuentoDe(Producto item, Nat cant);
     Nat gastoDe(Persona persona);
 

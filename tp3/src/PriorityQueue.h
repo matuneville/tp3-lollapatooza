@@ -4,7 +4,7 @@
 
 #ifndef TP_LOLLA_PRIORITYQUEUE_H
 #define TP_LOLLA_PRIORITYQUEUE_H
-#include "lollapatuza.h"
+#include "tipos.h"
 #include <set>
 #include <vector>
 #include <tuple>
@@ -16,7 +16,7 @@ class PriorityQueue {
 public:
     // Operaciones básicas
     PriorityQueue(set<Persona>);
-    Nat proximo() const;
+    Persona proximo() const;
     void modificar(Persona persona, int gasto);
     Nat devolverGasto(Persona persona) const;
 

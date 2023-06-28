@@ -1,22 +1,26 @@
-//
 // Created by neville on 26/06/23.
 //
 
 #include "PriorityQueue.h"
 
-PriorityQueue::PriorityQueue(set<Persona> personas){
+PriorityQueue::PriorityQueue(set<Persona> personas): _heap({}), _indicePersona({}){
     // Armamos del diccionario con todas las personas e indice 0 (momentáneo)
     for(auto a: personas){ // O(A)
-        _indicePersona[0] = 0;
+        _indicePersona[a] = 0;
     }
     // Hacemos un ciclo en el diccionario para pushear a todas las personas al heap con el índice correspondiente
     for(auto it = _indicePersona.begin(); it != _indicePersona.end(); ++it){
         _heap.push_back(make_tuple(0, it));
     }
+
+    // actualizo los índices correspondientes
+    for(int i=0;i<_heap.size();i++){
+        get<1>(_heap[i])->second = i;
+    }
 }
 
-Nat PriorityQueue::proximo() const{
-    return get<0>(_heap[0]); // O(1)
+Persona PriorityQueue::proximo() const{
+    return get<1>(_heap[0])->first; // O(1)
 }
 
 void PriorityQueue::modificar(Persona persona, int gasto){

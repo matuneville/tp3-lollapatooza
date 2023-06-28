@@ -8,7 +8,6 @@
 class lollapatuza {
 public:
     lollapatuza(const set<Persona>& personas, const map<IdPuesto, Puesto>& infoPuestos);
-    ~lollapatuza();
     void compra(Persona persona, IdPuesto idPuesto, Producto item, Nat cant);
     void hackear(Persona persona, Producto item);
     Nat gastoTotal(Persona persona) const;
@@ -23,7 +22,7 @@ private:
     set<Persona> _personas;
     map<IdPuesto, Puesto> _puestosPorID;
     PriorityQueue _gastoTotal;
-    map<Persona, map<Producto, map<IdPuesto, Puesto>>>& _puestosHackeables;
+    map<Persona, map<Producto, map<IdPuesto, Puesto>>> _puestosHackeables;
 };
 
 

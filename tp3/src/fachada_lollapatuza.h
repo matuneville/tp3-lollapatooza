@@ -3,11 +3,14 @@
 
 #include <set>
 #include "tipos.h"
+#include "lollapatuza.h"
 
 
 class FachadaLollapatuza {
 public:
     FachadaLollapatuza(const set<Persona>& personas, const map<IdPuesto, aed2_Puesto>& infoPuestos);
+
+    Puesto structToPuesto (aed2_Puesto aed2Puesto);
 
     void registrarCompra(Persona persona, Producto producto, Nat cant, IdPuesto idPuesto);
     void hackear(Persona persona, Producto producto);
@@ -37,6 +40,7 @@ private:
         Lollapatuza lolla;
 
     */
+    lollapatuza _lolla;
 
 };
 
