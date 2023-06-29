@@ -16,7 +16,7 @@ lollapatuza::lollapatuza(const set<Persona>& personas, const map<IdPuesto, Puest
 
 void lollapatuza::compra(Persona persona, IdPuesto idPuesto, Producto item, Nat cant){
     // buscamos el puesto
-    Puesto puesto = _puestosPorID.at(idPuesto); // O(log P)
+    Puesto& puesto = _puestosPorID.at(idPuesto); // O(log P)
 
     // calculo cuánto es el gasto de la compra
     Nat precioTotal = puesto.precioTotal(item,cant); // O(log I)
