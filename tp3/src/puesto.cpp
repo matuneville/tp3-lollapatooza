@@ -10,7 +10,7 @@ Puesto::Puesto(Menu menu, Stock stock, Promociones descuentos): _menu(menu), _st
     Nat contadorCant = 0;
     Nat sgteDesc = 0;
 
-    while(itItem != descuentos.end()){
+    while(itItem != descuentos.end()){ // ()
         vector<Nat> descPorIndice;
         map<Nat,Nat>::iterator itCant = (itItem->second).begin();
         while(itCant != itItem->second.end()) {
@@ -86,22 +86,26 @@ void Puesto::registrarCompra(Persona persona, Producto item, Nat cant){
 
 void Puesto::registrarHackeo(Persona persona, Producto item){
     _stock[item] ++;
-    multiset<Nat>* comprasSinDesc = &(_comprasSinDesc[persona])[item];
-    multiset<Nat>::iterator cantHackeadaIt = comprasSinDesc->begin();
+    multiset<Nat>& comprasSinDesc = _comprasSinDesc[persona][item];
+    multiset<Nat>::iterator cantHackeadaIt = comprasSinDesc.begin();
     if(*cantHackeadaIt == 1){
-        comprasSinDesc->erase(cantHackeadaIt);
+        comprasSinDesc.erase(cantHackeadaIt);
     }
     else{
-        Nat cantidadMenos1 = *cantHackeadaIt;
-        comprasSinDesc->erase(cantHackeadaIt);
-        comprasSinDesc->insert(cantidadMenos1);
+        Nat cantidadMenos1 = *cantHackeadaIt-1;
+        comprasSinDesc.erase(cantHackeadaIt);
+        comprasSinDesc.insert(cantidadMenos1);
     }
+    // restamos el precio de esa una unidad de ese item al gastoDe
+    float precioARestar = precioTotal(item, 1);
+    _gastoDe[persona] -= precioARestar;
 }
 
-Nat Puesto::precioTotal(Producto item, Nat cant){
-    Nat precioTotal = _menu.at(item) * cant; //O(log I)
-    Nat descuento = descuentoDe(item, cant); //O(log I)
-    return  precioTotal * ((100 - descuento) / 100); //O(1)
+float Puesto::precioTotal(Producto item, Nat cant){
+    float precioTotal = _menu.at(item) * cant; //O(log I)
+    float descuento = descuentoDe(item, cant); //O(log I)
+    float res = precioTotal * ((100 - descuento) / 100);
+    return res; //O(1)
 }
 
 bool Puesto::esHackeable(Persona persona, Producto item){
@@ -109,7 +113,7 @@ bool Puesto::esHackeable(Persona persona, Producto item){
         map<Producto ,multiset<Nat>> comprasPorItemSinDesc = _comprasSinDesc[persona];
         if(comprasPorItemSinDesc.count(item)){
             multiset<Nat> conjCantSinDesc = comprasPorItemSinDesc[item];
-            return (conjCantSinDesc.empty());
+            return !conjCantSinDesc.empty();
         }
     }
     return false;

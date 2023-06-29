@@ -22,7 +22,7 @@ private:
     set<Persona> _personas;
     map<IdPuesto, Puesto> _puestosPorID;
     PriorityQueue _gastoTotal;
-    map<Persona, map<Producto, map<IdPuesto, Puesto>>> _puestosHackeables;
+    map<Persona, map<Producto, map<IdPuesto, Puesto*>>> _puestosHackeables;
 };
 
 

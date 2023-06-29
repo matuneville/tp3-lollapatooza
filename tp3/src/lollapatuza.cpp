@@ -7,7 +7,7 @@ lollapatuza::lollapatuza(const set<Persona>& personas, const map<IdPuesto, Puest
         _personas(personas),
         _puestosPorID(infoPuestos),
         _gastoTotal(PriorityQueue(personas)),
-        _puestosHackeables(map<Persona, map<Producto, map<IdPuesto, Puesto>>>())
+        _puestosHackeables(map<Persona, map<Producto, map<IdPuesto, Puesto*>>>())
 {
     for (Persona persona : personas) {
         _puestosHackeables[persona] = {};
@@ -26,49 +26,46 @@ void lollapatuza::compra(Persona persona, IdPuesto idPuesto, Producto item, Nat 
 
 
     Nat descuento = puesto.descuentoDe(item,cant);
-    map<Producto ,map<IdPuesto,Puesto>>& diccPer = _puestosHackeables[persona];
+    map<Producto ,map<IdPuesto,Puesto*>>& diccPer = _puestosHackeables[persona];
+
+    // Modificamos el puesto
+    puesto.registrarCompra(persona, item, cant); // O(log A + log I + log cant)
 
     // modificamos puestos hackeables
     if(descuento == 0){
         if(diccPer.count(item)){ // O(log I)
-            map<IdPuesto, Puesto>& diccItem = diccPer[item];
+            map<IdPuesto, Puesto*>& diccItem = diccPer[item];
             if(!diccItem.count(idPuesto)){ // O(log P)
-                //diccItem[idPuesto] = puesto; // O(log P)
-                diccItem.insert({idPuesto, puesto});
+                diccItem.insert({idPuesto, &puesto}); // O(log P)
             }
         }
         else {
             diccPer[item] = {}; // O(log I)
-            map<IdPuesto, Puesto>& diccItem = diccPer[item];
-            //diccItem[idPuesto] = puesto; // O(log P)
-            diccItem.insert({idPuesto, puesto});
+            map<IdPuesto, Puesto*>& diccItem = diccPer[item];
+            diccItem.insert({idPuesto, &puesto}); // O(log P)
         }
     }
-
-    // Modificamos el puesto
-    puesto.registrarCompra(persona, item, cant); // O(log A + log I + log cant)
 }
 
 void lollapatuza::hackear(Persona persona, Producto item){
     // Buscamos el puesto
-    map<IdPuesto, Puesto> diccPerItem = _puestosHackeables[persona][item]; // O(log A + log I)
+    map<IdPuesto, Puesto*>& diccPerItem = _puestosHackeables[persona][item]; // O(log A + log I)
     auto it = diccPerItem.begin(); // O(1)
-    Puesto puestoHack = it->second; // O(1)
+    Puesto* puestoHack = it->second; // O(1)
 
     // Modificamos el puesto
-    puestoHack.registrarHackeo(persona, item); // O(log A + log I)
+    puestoHack->registrarHackeo(persona, item); // O(log A + log I)
 
     // Si deja de ser hackeable, lo quito
-    if(!puestoHack.esHackeable(persona, item)){ // O(log A + log I)
+    if(!puestoHack->esHackeable(persona, item)){ // O(log A + log I)
         diccPerItem.erase(it); // O(log P)
     }
 
     // Busco el precio de una unidad de este ítem
-    int precioUnidad = puestoHack.precioTotal(item, 1);
+    int precioUnidad = puestoHack->precioTotal(item, 1);
 
     // Modificamos la cola de prioridad
     _gastoTotal.modificar(persona, -precioUnidad);
-
 }
 
 Nat lollapatuza::gastoTotal(Persona persona) const{

@@ -28,14 +28,12 @@ void PriorityQueue::modificar(Persona persona, int gasto){
     Nat indice = _indicePersona[persona]; // O(log A)
     get<0>(_heap[indice]) += gasto; // O(1)
 
-    // caso que el índice de la persona sea 0
-    if(indice == 0){
-        return;
-    }
 
-    // Hago el happyfeet
     Nat indicePadre;
     if(gasto > 0){ // si el gasto es mayor a 0
+        if(indice == 0){
+            return;
+        }
         if(indice%2 == 0){
             indicePadre = indice/2 - 1;
         }

@@ -673,3 +673,104 @@ TEST_F(LollaTest, hackear_altera_puesto_menor_id) {
     EXPECT_EQ(l.gastoEnPuesto(7, 9), 0);
     EXPECT_EQ(l.idsDePuestos(), idsPuestos);
 }
+
+TEST_F(LollaTest, test_arboloneta_1_cambia_mayor_gastador_por_Compra){
+    Menu menu = {{13, 1500}, {10, 250}, {20, 900}, {1, 2000}};
+    set<Persona> personas1 = {1,6,7,8,21,25};
+    set<IdPuesto> idsPuestos = {1,2,3};
+    Stock stock1 = {{13, 600}, {20, 400}},
+          stock2 = {{13, 10}, {20, 45}, {10, 5}, {1, 20}},
+          stock3 = {{1, 17}};
+    Promociones descuentos1 = {{20, {{10, 10}, {20, 20}}}, {13, {{3, 5}}}},
+                descuentos2 = {{10,{{2,10},{4,30},{7,50}}},{13,{{2,10},{4,20},{8,60}}}},
+                descuentos3 = {{1, {{13, 25}}}};
+    aed2_Puesto puesto1 = {stock1, descuentos1, menu},
+                puesto2 = {stock2, descuentos2, menu},
+                puesto3 = {stock3, descuentos3, menu};
+    map<IdPuesto, aed2_Puesto> puestos = {{1, puesto1}, {2, puesto2}, {3, puesto3}};
+
+    FachadaLollapatuza l(personas1, puestos);
+
+    for (const Persona& p : personas1) {
+        EXPECT_EQ(l.gastoTotal(p), 0);
+    }
+
+    /*for (const Persona& p : personas2) {
+        EXPECT_EQ(l.gastoTotal(p), 0);
+    }*/
+
+    l.registrarCompra(21, 13, 5, 1); // aplica descuento, 3 -> 5%
+                                    // $ 7125
+    l.registrarCompra(25, 20, 390, 1); // aplica descuento, 20 -> 20%
+                                    // $ 280800
+    l.registrarCompra(6,10,4,2); // aplica descuento, 4 -> 30%
+                                // $ 700
+    l.registrarCompra(6, 1, 15, 3); // aplica descuento, 13 -> 25%
+                                    // $ 22500
+
+    EXPECT_EQ(l.descuentoEnPuesto(3, 1, 13), 25);
+
+    EXPECT_EQ(l.gastoEnPuesto(2, 6), 700);
+    EXPECT_EQ(l.gastoEnPuesto(3, 6), 22500);
+
+    EXPECT_EQ(l.mayorGastador(), 25);
+
+    EXPECT_EQ(l.gastoTotal(1), 0);
+    EXPECT_EQ(l.gastoTotal(6), 23200);
+    EXPECT_EQ(l.gastoTotal(7), 0);
+    EXPECT_EQ(l.gastoTotal(8), 0);
+    EXPECT_EQ(l.gastoTotal(21), 7125);
+    EXPECT_EQ(l.gastoTotal(25), 280800);
+
+    EXPECT_EQ(l.menorStock(10),1);
+    EXPECT_EQ(l.menorStock(1),1);
+
+    EXPECT_EQ(l.idsDePuestos(), idsPuestos);
+
+    l.registrarCompra(21, 13, 500, 1); // $712500
+
+    EXPECT_EQ(l.gastoTotal(21), 719625);
+
+    EXPECT_EQ(l.mayorGastador(), 21);
+
+    EXPECT_EQ(l.stockEnPuesto(1, 13), 95);
+
+
+
+}
+
+TEST_F(LollaTest, test_arboloneta_2_cambia_mayor_gastador_por_Hackeo){
+    Menu menu = {{13, 1500}, {10, 700}, {20, 900}, {1, 2000}};
+    set<Persona> personas2 = {1, 2, 3, 4, 5, 10, 20, 30, 40, 50};
+    set<IdPuesto> idsPuestos = {1,2,3};
+    Stock stock1 = {{13, 350}, {20, 8000}},
+            stock2 = {{13, 100}, {20, 45}, {10, 5}, {1, 20}},
+            stock3 = {{13, 1000},{1, 17}};
+    Promociones descuentos = {};
+    aed2_Puesto puesto1 = {stock1, descuentos, menu},
+            puesto2 = {stock2, descuentos, menu},
+            puesto3 = {stock3, descuentos, menu};
+    map<IdPuesto, aed2_Puesto> puestos = {{1, puesto1}, {2, puesto2}, {3, puesto3}};
+
+    FachadaLollapatuza l(personas2, puestos);
+
+    for (const Persona& p : personas2) {
+        EXPECT_EQ(l.gastoTotal(p), 0);
+    }//
+    l.registrarCompra(2, 20, 400, 1); // 400 * 900 = 360000
+    l.registrarCompra(1, 13, 35, 2); // 35 * 1500 = 52500
+    l.registrarCompra(10, 13, 300, 1); // 300 * 1500 = 450000
+    l.registrarCompra(30, 20, 7, 1); // 7 * 900 = 6300
+    l.registrarCompra(5, 20, 399, 2); // 400 * 900 = 360000
+    EXPECT_EQ(l.mayorGastador(),10);
+    EXPECT_EQ(l.menorStock(13),1);
+    // hackeamos al mayor gastador hasta que deje de ser el mayor
+    for(int i = 0; i < 70; i++ ){
+        l.hackear(10,13);
+    }
+
+    EXPECT_EQ(l.mayorGastador(),2);
+    EXPECT_EQ(l.menorStock(13),2);
+
+
+}

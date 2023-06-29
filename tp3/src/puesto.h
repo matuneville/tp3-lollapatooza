@@ -19,7 +19,7 @@ public:
     // Otras operaciones
     void registrarCompra(Persona persona, Producto item, Nat cant);
     void registrarHackeo(Persona persona, Producto item);
-    Nat precioTotal(Producto item, Nat cant);
+    float precioTotal(Producto item, Nat cant);
     bool esHackeable(Persona persona, Producto item);
 
 
