@@ -11,6 +11,7 @@ public:
     FachadaLollapatuza(const set<Persona>& personas, const map<IdPuesto, aed2_Puesto>& infoPuestos);
 
     Puesto structToPuesto (aed2_Puesto aed2Puesto);
+    const map<IdPuesto, Puesto> diccFachada_a_diccLolla(const map<IdPuesto, aed2_Puesto> &infoPuestos);
 
     void registrarCompra(Persona persona, Producto producto, Nat cant, IdPuesto idPuesto);
     void hackear(Persona persona, Producto producto);
@@ -32,14 +33,6 @@ public:
     set<IdPuesto> idsDePuestos() const;
 
 private:
-    /*  TOD0: Completar.
-
-        En la parte privada deben guardarse una instancia de su  modulo Lollapatuza.
-        Por ejemplo:
-
-        Lollapatuza lolla;
-
-    */
     lollapatuza _lolla;
 
 };

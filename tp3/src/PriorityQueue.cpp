@@ -44,10 +44,13 @@ void PriorityQueue::modificar(Persona persona, int gasto){
                 swap(_heap[indice], _heap[indicePadre]); // O(1)
 
                 // actualizamos los índices correspondientes
-                get<1>(_heap[indice])->second = indicePadre; // O(1)
-                get<1>(_heap[indicePadre])->second = indice; // O(1)
+                get<1>(_heap[indicePadre])->second = indicePadre; // O(1)
+                get<1>(_heap[indice])->second = indice; // O(1)
 
                 indice = indicePadre;
+                if(indice == 0){
+                    return;
+                }
                 if(indice%2 ==0){
                     indicePadre = indice/2 - 1;
                 }
@@ -85,8 +88,8 @@ void PriorityQueue::modificar(Persona persona, int gasto){
                     swap(_heap[indice], _heap[indiceHijoMayor]); // O(1)
 
                     // actualizamos los índices correspondientes
-                    get<1>(_heap[indice])->second = indiceHijoMayor; // O(1)
-                    get<1>(_heap[indiceHijoMayor])->second = indice; // O(1)
+                    get<1>(_heap[indice])->second = indice; // O(1)
+                    get<1>(_heap[indiceHijoMayor])->second = indiceHijoMayor; // O(1)
 
                     indice = indiceHijoMayor;
                     indiceHijoIzq = 2*indice+2;
