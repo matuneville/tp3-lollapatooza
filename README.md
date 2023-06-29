@@ -1,6 +1,5 @@
 # Sistema de compras en *Lolla-Patooza*
-## Algoritmos y Estructuras de Datos 2, Trabajo Práctico N° 3
-
+Algoritmos y Estructuras de Datos 2, Trabajo Práctico N° 3  
 Para correrlo en CLion, borrar el folder `cmake-build-debug`. CLion lo restaurará con los directorios correctos de la ruta
 
 ### Miembros
