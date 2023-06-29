@@ -47,7 +47,6 @@ void lollapatuza::compra(Persona persona, IdPuesto idPuesto, Producto item, Nat 
 
     // Modificamos el puesto
     puesto.registrarCompra(persona, item, cant); // O(log A + log I + log cant)
-
 }
 
 void lollapatuza::hackear(Persona persona, Producto item){

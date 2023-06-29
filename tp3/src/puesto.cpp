@@ -58,25 +58,22 @@ void Puesto::registrarCompra(Persona persona, Producto item, Nat cant){
         if(!_comprasConDesc.count(persona)){
             _comprasConDesc[persona] = {};
         }
-        map<Producto ,multiset<Nat>>* diccItemConDesc = &_comprasConDesc[persona];
-        if(!diccItemConDesc->count(item)){
-            (*diccItemConDesc)[item] = {};
+        map<Producto ,multiset<Nat>>& diccItemConDesc = _comprasConDesc[persona];
+        if(!diccItemConDesc.count(item)){
+            diccItemConDesc[item] = {};
         }
 
-        multiset<Nat> conjCantConDesc = (*diccItemConDesc)[item];
-        conjCantConDesc.insert(cant);
+        diccItemConDesc[item].insert(cant);
     }
     else{
         if(!_comprasSinDesc.count(persona)){
             _comprasSinDesc[persona] = {};
         }
-        map<Producto ,multiset<Nat>>* diccItemSinDesc = &_comprasSinDesc[persona];
-        if(! diccItemSinDesc->count(item)){
-            (*diccItemSinDesc)[item] = {};
+        map<Producto ,multiset<Nat>>& diccItemSinDesc = _comprasSinDesc[persona];
+        if(! diccItemSinDesc.count(item)){
+            diccItemSinDesc[item] = {};
         }
-
-        multiset<Nat>* conjCantSinDesc = &(*diccItemSinDesc)[item];
-        conjCantSinDesc->insert(cant);
+        diccItemSinDesc[item].insert(cant);
     }
     if(!_gastoDe.count(persona)){
         _gastoDe.insert({persona, precioT});

@@ -1,14 +1,14 @@
 #include "fachada_lollapatuza.h"
 
 
-Puesto structToPuesto (aed2_Puesto aed2Puesto){
+Puesto FachadaLollapatuza::structToPuesto (aed2_Puesto aed2Puesto){
     return Puesto(aed2Puesto.menu, aed2Puesto.stock, aed2Puesto.promociones);
 }
 
-const map<IdPuesto, Puesto> diccFachada_a_diccLolla(const map<IdPuesto, aed2_Puesto> &infoPuestos){
+const map<IdPuesto, Puesto> FachadaLollapatuza::diccFachada_a_diccLolla(const map<IdPuesto, aed2_Puesto> &infoPuestos){
     map<IdPuesto, Puesto> infoPuestosAux;
     for (auto it = infoPuestos.begin(); it != infoPuestos.end(); it++){
-        infoPuestosAux.insert({it->first, ::structToPuesto(it->second)});
+        infoPuestosAux.insert({it->first, structToPuesto(it->second)});
     }
     return infoPuestosAux;
 }
@@ -17,8 +17,7 @@ FachadaLollapatuza::FachadaLollapatuza(const set<Persona> &personas, const map<I
         _lolla(personas, diccFachada_a_diccLolla(infoPuestos)){}
 
 void FachadaLollapatuza::registrarCompra(Persona persona, Producto producto, Nat cant, IdPuesto idPuesto) {
-    Puesto puesto = _lolla.idsDePuestos().at(idPuesto);
-    puesto.registrarCompra(persona, producto, cant);
+    _lolla.compra(persona, idPuesto, producto, cant);
 }
 
 void FachadaLollapatuza::hackear(Persona persona, Producto producto) {
@@ -55,7 +54,7 @@ Nat FachadaLollapatuza::gastoEnPuesto(IdPuesto idPuesto, Persona persona) const 
 }
 
 set<IdPuesto> FachadaLollapatuza::idsDePuestos() const {
-    set<int> conjunto;
+    set<IdPuesto> conjunto;
     map<IdPuesto, Puesto> ids = _lolla.idsDePuestos();
     for (auto it = ids.begin(); it != ids.end(); ++it) {
         int clave = it->first;

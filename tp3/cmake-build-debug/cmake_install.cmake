@@ -1,4 +1,4 @@
-# Install script for directory: /home/neville/GitHub/tp3-lollapatooza/tp3
+# Install script for directory: /home/luci/Escritorio/lic_datos/ayed2/tps/tp3/tp3-lollapatooza/tp3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/neville/GitHub/tp3-lollapatooza/tp3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/luci/Escritorio/lic_datos/ayed2/tps/tp3/tp3-lollapatooza/tp3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
